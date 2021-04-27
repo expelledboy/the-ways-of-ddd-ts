@@ -1,0 +1,24 @@
+{
+  "dependencies": {
+    "@matchbook/ts": "^1.0.0",
+    "@types/node": "^15.0.1",
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/parser": "^4.22.0",
+    "eslint": "^7.25.0",
+    "mch": "^0.3.0",
+    "safety-match": "^0.4.4",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
+  },
+  "scripts": {
+    "pretest": "npm run lint && tsc --noEmit",
+    "lint": "eslint . --cache --fix",
+    "tennis:tags": "ts-node ./src/tenis/using-tags.ts",
+    "tennis:interfaces": "ts-node ./src/tenis/using-interfaces.ts",
+    "tennis:abstract-classes": "ts-node ./src/tenis/using-abstract-class.ts",
+    "tennis:class-states": "ts-node ./src/tenis/using-class-states.ts",
+    "tennis:match-proposal-constructors": "ts-node ./src/tenis/using-match-proposal-with-constructors.ts",
+    "tennis:match-proposal-tag": "ts-node ./src/tenis/using-match-proposal-with-tag.ts",
+    "tennis:safety-match": "ts-node ./src/tenis/using-safety-match.ts"
+  }
+}
