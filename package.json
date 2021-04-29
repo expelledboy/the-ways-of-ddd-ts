@@ -1,24 +1,34 @@
 {
+  "license": "Apache-2.0",
   "dependencies": {
     "@matchbook/ts": "^1.0.0",
+    "faste": "^1.1.1",
+    "mch": "^0.3.0",
+    "safety-match": "^0.4.4"
+  },
+  "devDependencies": {
     "@types/node": "^15.0.1",
     "@typescript-eslint/eslint-plugin": "^4.22.0",
     "@typescript-eslint/parser": "^4.22.0",
     "eslint": "^7.25.0",
-    "mch": "^0.3.0",
-    "safety-match": "^0.4.4",
+    "prettier": "^2.2.1",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4"
   },
   "scripts": {
     "pretest": "npm run lint && tsc --noEmit",
+    "posttest": "npm run format",
     "lint": "eslint . --cache --fix",
-    "tennis:tags": "ts-node ./src/tenis/using-tags.ts",
-    "tennis:interfaces": "ts-node ./src/tenis/using-interfaces.ts",
-    "tennis:abstract-classes": "ts-node ./src/tenis/using-abstract-class.ts",
-    "tennis:class-states": "ts-node ./src/tenis/using-class-states.ts",
-    "tennis:match-proposal-constructors": "ts-node ./src/tenis/using-match-proposal-with-constructors.ts",
-    "tennis:match-proposal-tag": "ts-node ./src/tenis/using-match-proposal-with-tag.ts",
-    "tennis:safety-match": "ts-node ./src/tenis/using-safety-match.ts"
+    "format": "prettier --loglevel warn --write \"**/*.{js,css,md}\"",
+    "tennis:tags": "ts-node ./src/tennis/using-tags.ts",
+    "tennis:interfaces": "ts-node ./src/tennis/using-interfaces.ts",
+    "tennis:abstract-classes": "ts-node ./src/tennis/using-abstract-class.ts",
+    "tennis:typescript-fsm": "ts-node ./src/tennis/using-typescript-fsm.ts",
+    "tennis:class-states": "ts-node ./src/tennis/using-class-states.ts",
+    "tennis:match-proposal-constructors": "ts-node ./src/tennis/using-match-proposal-with-constructors.ts",
+    "tennis:match-proposal-tag": "ts-node ./src/tennis/using-match-proposal-with-tag.ts",
+    "tennis:safety-match": "ts-node ./src/tennis/using-safety-match.ts",
+    "tennis:safety-match-fsm": "ts-node ./src/tennis/using-safety-match-fsm.ts",
+    "tennis:faste": "ts-node ./src/tennis/using-faste.ts"
   }
 }
