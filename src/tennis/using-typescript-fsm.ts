@@ -51,9 +51,10 @@ type StateMachine<
     };
   }
 > = {
-  [E in keyof T]?: {
-    // @ts-expect-error "TODO"
-    [S in keyof T[E]]?: Transition<E, S, T[E][S]>;
+  [E in keyof T & keyof Event]: {
+    [S in keyof T[E] & keyof Score]: T[E][S] extends keyof Score
+      ? Transition<E, S, T[E][S]>
+      : never;
   };
 };
 
@@ -86,16 +87,31 @@ const of = <S extends keyof Score, T extends Score[S]>(
   data: T
 ): Pick<Score, S> => (({ [type]: data } as unknown) as Pick<Score, S>);
 
-const applyEvent = <S extends keyof Score, E extends keyof Event>(
-  fsm: Game
-) => (
-  Score: TaggedUnion<Score>,
-  Event: TaggedUnion<Event>
+const applyEvent = (fsm: Game) => <
+  S extends keyof Score,
+  E extends keyof Event
+>(
+  score: TaggedUnion<Score>,
+  event: TaggedUnion<Event>
 ): TaggedUnion<Score> => {
-  const event = Object.keys(Event as Pick<Event, E>)[0] as E;
-  const score = Object.keys(Score as Pick<Score, S>)[0] as S;
+  const tag = {
+    event: Object.keys(event)[0] as E,
+    score: Object.keys(score)[0] as S,
+  };
+
+  const value = {
+    event: (event as Pick<Event, E>)[tag.event],
+    score: (score as Pick<Score, S>)[tag.score],
+  };
+
   // @ts-expect-error "TODO"
-  return fsm[event][score](Score[score])(Event[event]) as TaggedUnion<Score>;
+  const handle = fsm[tag.event]![tag.score]; // eslint-disable-line
+
+  if (!handle) {
+    return score;
+  }
+
+  return handle(value.score)(value.event) as TaggedUnion<Score>;
 };
 
 //
@@ -164,6 +180,7 @@ const scorePoint = applyEvent(fsm);
 const newGame = of("Points", { playerOne: "love", playerTwo: "love" });
 
 const scoreSequence = (events: TaggedUnion<Event>[]) =>
+  // @ts-expect-error "TODO"
   events.reduce(scorePoint, newGame);
 
 const playerOne = { ScorePoint: "playerOne" } as Pick<Event, "ScorePoint">;
